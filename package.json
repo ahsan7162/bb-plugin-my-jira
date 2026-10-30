@@ -1,0 +1,48 @@
+{
+  "name": "bb-plugin-my-jira",
+  "version": "0.4.0",
+  "type": "module",
+  "engines": {
+    "bb": ">=0.48",
+    "bbPluginSdk": ">=0.6.94"
+  },
+  "bb": {
+    "name": "Jira Board",
+    "description": "Your Jira tickets, open and done: filter by status and type, search, group by status, initiative or epic, or board, and open a ticket beside the list. Change statuses in place, move with the keyboard. Sign in with Atlassian in the browser and pick your site if you have several; nothing to set up.",
+    "branding": {
+      "icon": "Columns2"
+    },
+    "server": "./server.ts",
+    "app": "./app.tsx"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.3.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@get-bb/plugin-sdk": "0.6.104",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "better-sqlite3": "^12.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "hono": "^4.11.9",
+    "tailwind-merge": "^3.4.0",
+    "typescript": "^5.7.0"
+  },
+  "description": "Your Jira tickets, open and done: filter by status and type, search, group by status, initiative or epic, or board, and open a ticket beside the list. Change statuses in place, move with the keyboard. Sign in with Atlassian in the browser and pick your site if you have several; nothing to set up.",
+  "scripts": {
+    "test": "node --test jira.test.ts repo.test.ts",
+    "typecheck": "tsc"
+  },
+  "keywords": [
+    "bb-plugin"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahsan7162/bb-plugin-my-jira.git"
+  }
+}
