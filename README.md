@@ -3,12 +3,24 @@
 The Jira tickets assigned to you, in a calm list you can filter, group and work through without
 leaving [bb](https://getbb.app).
 
+
+
+https://github.com/user-attachments/assets/8cf74bd1-b91e-4c04-9c8e-295c257c0519
+
+
+
 ```
 bb plugin install git:https://github.com/ahsan7162/bb-plugin-my-jira.git@^0.4.0
 ```
 
 Or install **Jira Board** from bb's plugin store. Click **Connect Jira** and sign in with Atlassian
 in the browser; there is nothing to configure. See [Requirements](#requirements).
+
+<img width="2560" height="1904" alt="1-list" src="https://github.com/user-attachments/assets/925c1688-64bc-4560-912b-d4263807320c" />
+
+<img width="2560" height="1904" alt="2-ticket" src="https://github.com/user-attachments/assets/7a042d21-679d-41b9-8e10-65c2951ed26c" />
+
+<img width="2560" height="1904" alt="3-hierarchy" src="https://github.com/user-attachments/assets/312b83ad-74ed-4c7e-b0dd-e89649904006" />
 
 ## What you get
 
