@@ -10,7 +10,7 @@ https://github.com/user-attachments/assets/8cf74bd1-b91e-4c04-9c8e-295c257c0519
 
 
 ```
-bb plugin install git:https://github.com/ahsan7162/bb-plugin-my-jira.git@^0.4.0
+bb plugin install git:https://github.com/ahsan7162/bb-plugin-my-jira.git@^0.5.0
 ```
 
 Or install **Jira Board** from bb's plugin store. Click **Connect Jira** and sign in with Atlassian
