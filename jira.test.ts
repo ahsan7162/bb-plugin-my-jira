@@ -21,6 +21,7 @@ import {
   toSites,
   toTicket,
   toTransition,
+  toUsers,
   toolJson,
   toolText,
   addToGraph,
@@ -331,4 +332,20 @@ test("byBoard: a ticket inherits its nearest listed ancestor's board; the rest g
   assert.deepEqual(groups[0]!.head, { kind: "board", name: "Platform board", url: "https://example.atlassian.net/b/1" });
   assert.deepEqual(rowsOf(groups[0]!), [["ACME-120", 0, "ACME-100", false], ["ACME-121", 0, "ACME-120", true]]); // the subtask is there via its task
   assert.deepEqual(rowsOf(groups[2]!), [["ACME-202", 0, null, false]]);
+});
+
+test("toUsers keeps active users with an accountId, from executeRead's unwrapped array or { users }", () => {
+  const raw = [
+    { accountId: "a:1", displayName: "Sam Lee", emailAddress: "sam@acme.test", active: true },
+    { accountId: "a:2", displayName: "Gone User", active: false },
+    { displayName: "No Id" },
+    { accountId: "a:3", displayName: "  " },
+  ];
+  const want = [
+    { accountId: "a:1", name: "Sam Lee", email: "sam@acme.test" },
+    { accountId: "a:3", name: "a:3", email: null },
+  ];
+  assert.deepEqual(toUsers(toolJson(JSON.stringify({ data: raw }))), want);
+  assert.deepEqual(toUsers({ users: raw }), want);
+  assert.deepEqual(toUsers(null), []);
 });

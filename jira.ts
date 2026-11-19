@@ -392,6 +392,19 @@ export function toTransition(raw: RawTransition): Transition {
   };
 }
 
+export const userSchema = z.object({ accountId: z.string(), name: z.string(), email: z.string().nullable() });
+export type User = z.infer<typeof userSchema>;
+
+/** listJiraIssueAssignableUsers → active users; a bare array (executeRead's `{ data }` is already unwrapped) or `{ users | values }`. */
+export function toUsers(result: unknown): User[] {
+  type Raw = { accountId?: string; displayName?: string; emailAddress?: string; active?: boolean };
+  const r = result as Raw[] | { users?: Raw[]; values?: Raw[] } | null;
+  const list = Array.isArray(r) ? r : (r?.users ?? r?.values ?? []);
+  return list
+    .filter((u): u is Raw & { accountId: string } => typeof u.accountId === "string" && u.active !== false)
+    .map((u) => ({ accountId: u.accountId, name: u.displayName?.trim() || u.accountId, email: u.emailAddress ?? null }));
+}
+
 export interface Board {
   id: number;
   name: string;

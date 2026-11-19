@@ -16,6 +16,7 @@ import {
   TypeChip,
   ago,
   message,
+  useAssigneeChanger,
   useStatusChanger,
   type Open,
   type Rpc,
@@ -62,6 +63,7 @@ export interface Position {
 
 function Loaded({ rpc, d, onOpen, onChanged }: { rpc: Rpc; d: TicketDetail; onOpen: Open; onChanged: () => void }) {
   const { pill, panel } = useStatusChanger(rpc, d, onChanged);
+  const assignee = useAssigneeChanger(rpc, d, onChanged);
   return (
     <>
       <header className="space-y-4 rounded-2xl border border-border/70 bg-card p-6">
@@ -92,6 +94,7 @@ function Loaded({ rpc, d, onOpen, onChanged }: { rpc: Rpc; d: TicketDetail; onOp
           </UrlLink>
         </div>
         {panel}
+        {assignee.panel}
         <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-border/70 pt-4 @lg:grid-cols-3">
           <Fact label="Status">
             <span className="inline-flex items-center gap-1.5">
@@ -100,7 +103,7 @@ function Loaded({ rpc, d, onOpen, onChanged }: { rpc: Rpc; d: TicketDetail; onOp
             </span>
           </Fact>
           <Fact label="Priority">{d.priority ? <PriorityMark priority={d.priority} /> : "None"}</Fact>
-          <Fact label="Assignee">{d.assignee ?? "Unassigned"}</Fact>
+          <Fact label="Assignee">{assignee.button}</Fact>
           <Fact label="Reporter">{d.reporter ?? "Unknown"}</Fact>
           <Fact label="Created">{ago(d.created)}</Fact>
           <Fact label="Updated">{ago(d.updated)}</Fact>

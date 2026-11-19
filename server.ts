@@ -38,9 +38,11 @@ import {
   toSites,
   toTicket,
   toTransition,
+  toUsers,
   toolJson,
   toolText,
   transitionSchema,
+  userSchema,
   unresolved,
   type Board,
   type RawIssue,
@@ -90,6 +92,15 @@ export const rpcContract = defineRpcContract({
   },
   transition_apply: {
     input: z.object({ key: issueKeySchema, id: z.string().regex(/^\d+$/) }).strict(),
+    output: z.null(),
+  },
+  assignees_search: {
+    input: z.object({ key: issueKeySchema, query: z.string().max(100) }).strict(),
+    output: z.object({ users: z.array(userSchema) }),
+  },
+  assignee_set: {
+    // null unassigns. Always an accountId: display names repeat (two "Muhammad Ahmed"s on one site).
+    input: z.object({ key: issueKeySchema, accountId: z.string().regex(/^[\w:-]{1,128}$/).nullable() }).strict(),
     output: z.null(),
   },
 });
@@ -592,6 +603,17 @@ export default async function plugin(bb: BbPluginApi) {
       // v2's transitionJiraIssue takes transitionId (v1 took transition: { id }) and rejects unknown fields.
       await op(["transitionJiraIssue"], { cloudId: site.cloudId, issueIdOrKey: key, transitionId: id }, "write");
       boardCache.clear(); // the list reload re-reads the moved ticket; its parent chain is unchanged, so the graph stays
+      return null;
+    },
+    assignees_search: async ({ key, query }) => {
+      const site = await connectedSite();
+      // By issue, not project: Jira then applies that issue's permission and security rules.
+      const result = await op(["listJiraIssueAssignableUsers"], { cloudId: site.cloudId, issueKey: key, ...(query.trim() ? { query: query.trim() } : {}) });
+      return { users: toUsers(result).slice(0, 20) };
+    },
+    assignee_set: async ({ key, accountId }) => {
+      const site = await connectedSite();
+      await op(["editJiraIssue"], { cloudId: site.cloudId, issueIdOrKey: key, fields: { assignee: accountId } }, "write");
       return null;
     },
   });

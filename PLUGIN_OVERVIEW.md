@@ -24,6 +24,7 @@
   description, comments, and its children (an initiative's epics, an epic's
   issues, a task's subtasks).
 - Click a status pill to move the ticket through your workflow.
+- Click the assignee to assign, reassign or unassign the ticket.
 - **Keyboard** (when the panel has focus): J/K or arrows to move, Enter to
   open, [ and ] for previous/next, U for the parent, S to change status,
   / to search, Esc to close, ? for the list.

@@ -110,7 +110,7 @@ menus `shadow-lg shadow-black/10`.
 | enter | 200ms | ticket pane, menus, shortcut list, status pop, content appearing |
 | ease | `cubic-bezier(0.2, 0, 0, 1)` | everything |
 | pane slide | 8px from the right (`slide-in-from-right-2`) | ticket pane |
-| menu drop | 4px (`slide-in-from-top-1`) | status menu, chip menus, shortcut list |
+| menu drop | 4px (`slide-in-from-top-1`) | status menu, assignee picker, chip menus, shortcut list |
 | pop | scale 1 → 1.06 → 1 | status pill after a change |
 
 ## Components

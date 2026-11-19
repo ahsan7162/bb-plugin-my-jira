@@ -33,6 +33,8 @@ in the browser; there is nothing to configure. See [Requirements](#requirements)
 - **Open a ticket beside the list.** Its lineage, facts, description, children and comments, with
   Previous / Next through the list and Up to its parent. Narrow panes give it its own page.
 - **Change statuses in place.** Click a status to see the moves your workflow allows.
+- **Assign or reassign.** In an open ticket, click the assignee to search the people Jira lets you
+  assign it to, or unassign it.
 - **Move by keyboard.** J / K to move, Enter to open, [ and ] for previous / next, U for the
   parent, S to change status, / to search, ? for the list.
 - **Any Jira Cloud site.** If your account grants several, the site name becomes a menu to switch.
@@ -63,7 +65,7 @@ npm test && npm run typecheck
 ```
 
 - `server.ts`: OAuth (`auth_start`, `/oauth/callback`, token refresh), site switching, and the
-  RPCs for tickets, a ticket's detail, boards and status changes.
+  RPCs for tickets, a ticket's detail, boards, status changes and assignment.
 - `jira.ts`: pure helpers that read Atlassian's replies; `filters.ts`: the list's rules (filters,
   priorities, groupings). Both are covered by `jira.test.ts`.
 - `app.tsx` (the list), `detail.tsx` (one ticket), `parts.tsx` (shared pieces; the design system

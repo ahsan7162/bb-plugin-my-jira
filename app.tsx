@@ -497,7 +497,7 @@ function ListView({
     const el = e.target as HTMLElement;
     if (el.closest("input, textarea, [contenteditable=true]")) {
       if (e.key === "Escape") {
-        setQuery("");
+        if (el === searchRef.current) setQuery(""); // not the assignee search: its Escape only closes it
         rootRef.current?.focus();
       }
       return;

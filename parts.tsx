@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import type { MouseEvent as ReactMouseEvent, ReactNode, Ref } from "react";
 import { UrlLink, useRpc } from "@get-bb/plugin-sdk/app";
 import type { rpcContract } from "./server";
-import type { IssueNode, Ticket, Transition } from "./jira";
+import type { IssueNode, Ticket, Transition, User } from "./jira";
 import { age, catOf, priorityLevel, type Cat, type Priority } from "./filters";
 
 export { age };
@@ -496,6 +496,123 @@ export function useStatusChanger(rpc: Rpc, ticket: Pick<Ticket, "key" | "status"
   const pill = <StatusPill pillRef={pillRef} cat={catOf(shown.category)} label={shown.status} open={open} busy={busy} compact={compact} onHover={prefetch} onClick={toggle} />;
   const panel = open ? <MenuPanel transitions={transitions} error={error} url={ticket.url} busy={busy} onPick={apply} /> : null;
   return { pill, panel };
+}
+
+// ---------- assignee change ----------
+
+/**
+ * The assignee as a button and, once clicked, a search over the people Jira lets you assign this issue to.
+ * Returns the two parts separately, like useStatusChanger, so the panel can sit under the header.
+ */
+export function useAssigneeChanger(rpc: Rpc, ticket: Pick<Ticket, "key" | "url"> & { assignee: string | null }, onChanged: () => void) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [users, setUsers] = useState<User[] | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  // The name just assigned ("" = unassigned), shown until the re-read ticket arrives.
+  const [assigned, setAssigned] = useState<string | null>(null);
+  useEffect(() => setAssigned(null), [ticket.assignee]);
+  useOverlay(open, setOpen);
+
+  useEffect(() => {
+    if (!open) return;
+    let live = true; // drops replies to an older query
+    const timer = setTimeout(() => {
+      rpc.call("assignees_search", { key: ticket.key, query }).then(
+        (r) => {
+          if (!live) return;
+          setUsers(r.users);
+          setError(null);
+        },
+        (c: unknown) => live && setError(message(c)),
+      );
+    }, 250);
+    return () => {
+      live = false;
+      clearTimeout(timer);
+    };
+  }, [rpc, ticket.key, open, query]);
+
+  const toggle = () => {
+    setOpen(!open);
+    setQuery("");
+    setUsers(null);
+    setError(null);
+  };
+  const assign = (user: User | null) => {
+    setBusy(true);
+    setError(null);
+    rpc
+      .call("assignee_set", { key: ticket.key, accountId: user?.accountId ?? null })
+      .then(() => {
+        setOpen(false);
+        setAssigned(user?.name ?? "");
+        onChanged();
+      }, (c: unknown) => setError(message(c)))
+      .finally(() => setBusy(false));
+  };
+
+  const shown = assigned === null ? ticket.assignee : assigned || null;
+  const option = "flex w-full cursor-pointer items-baseline gap-2 rounded-xl px-3 py-1.5 text-left text-sm transition-colors duration-[120ms] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50";
+  const button = (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-expanded={open}
+      aria-label={`Assignee: ${shown ?? "Unassigned"}. Change assignee`}
+      className="inline-flex max-w-full cursor-pointer items-center gap-1 rounded-full px-1.5 py-0.5 transition-colors duration-[120ms] hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <span className="truncate">{busy ? "Assigning…" : (shown ?? "Unassigned")}</span>
+      <Icon name="ChevronDown" className={cn("size-3 shrink-0 text-muted-foreground transition-transform duration-[120ms] motion-reduce:transition-none", open && "rotate-180")} aria-hidden />
+    </button>
+  );
+  const panel = open ? (
+    <div className={cn("space-y-1 rounded-xl bg-muted/50 p-2 motion-safe:slide-in-from-top-1", ENTER)}>
+      <input
+        autoFocus
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Assign to… (name or email)"
+        aria-label="Search people to assign"
+        maxLength={100}
+        className="h-8 w-full rounded-full border border-border bg-background px-3 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
+      />
+      {error ? (
+        <p className="px-1 text-xs text-destructive">
+          {error}{" "}
+          <UrlLink href={ticket.url} className="font-medium underline">
+            Open in Jira
+          </UrlLink>
+        </p>
+      ) : null}
+      <ul className="max-h-64 overflow-y-auto">
+        {shown !== null ? (
+          <li>
+            <button type="button" disabled={busy} onClick={() => assign(null)} className={cn(option, "text-muted-foreground")}>
+              Unassign
+            </button>
+          </li>
+        ) : null}
+        {users === null ? (
+          error ? null : <li className="px-3 py-1.5 text-xs text-muted-foreground">Loading people…</li>
+        ) : users.length === 0 ? (
+          <li className="px-3 py-1.5 text-xs text-muted-foreground">No one assignable matches.</li>
+        ) : (
+          users.map((u) => (
+            <li key={u.accountId}>
+              <button type="button" disabled={busy} onClick={() => assign(u)} className={option}>
+                <span className="truncate font-medium">{u.name}</span>
+                {/* Names repeat across accounts; the email tells them apart. */}
+                {u.email ? <span className="min-w-0 truncate text-xs text-muted-foreground">{u.email}</span> : null}
+              </button>
+            </li>
+          ))
+        )}
+      </ul>
+    </div>
+  ) : null;
+  return { button, panel };
 }
 
 // ---------- a ticket row ----------
