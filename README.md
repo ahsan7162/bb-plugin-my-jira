@@ -24,7 +24,9 @@ in the browser; there is nothing to configure. See [Requirements](#requirements)
 
 <!-- IMAGE: drag 04-assign.png onto this line in GitHub's web editor, then delete this comment -->
 
-<!-- IMAGE: drag 05-board.png onto this line in GitHub's web editor, then delete this comment -->
+<!-- IMAGE: drag 05-hierarchy.png onto this line in GitHub's web editor, then delete this comment -->
+
+<!-- IMAGE: drag 06-board.png onto this line in GitHub's web editor, then delete this comment -->
 
 ## What you get
 
