@@ -16,18 +16,23 @@ bb plugin install git:https://github.com/ahsan7162/bb-plugin-my-jira.git@^0.5.0
 Or install **Jira Board** from bb's plugin store. Click **Connect Jira** and sign in with Atlassian
 in the browser; there is nothing to configure. See [Requirements](#requirements).
 
-<img width="2560" height="1904" alt="1-list" src="https://github.com/user-attachments/assets/925c1688-64bc-4560-912b-d4263807320c" />
+<!-- IMAGE: drag 01-list.png onto this line in GitHub's web editor, then delete this comment -->
 
-<img width="2560" height="1904" alt="2-ticket" src="https://github.com/user-attachments/assets/7a042d21-679d-41b9-8e10-65c2951ed26c" />
+<!-- IMAGE: drag 02-ticket.png onto this line in GitHub's web editor, then delete this comment -->
 
-<img width="2560" height="1904" alt="3-hierarchy" src="https://github.com/user-attachments/assets/312b83ad-74ed-4c7e-b0dd-e89649904006" />
+<!-- IMAGE: drag 03-status.png onto this line in GitHub's web editor, then delete this comment -->
+
+<!-- IMAGE: drag 04-assign.png onto this line in GitHub's web editor, then delete this comment -->
+
+<!-- IMAGE: drag 05-board.png onto this line in GitHub's web editor, then delete this comment -->
 
 ## What you get
 
 - **Your tickets in one tab.** A **My Tickets** page in the bb rail with **Open** and **Done**,
   50 per page, one row per ticket: type, key, title, epic, status, priority and age.
 - **Filters beside the tabs.** Status chips (the busiest three inline, the rest in a menu) and a
-  **Type** menu. Pick several; statuses and types combine. Search by key, words or epic.
+  **Type** menu. Pick several; statuses and types combine. Search by key, words or epic; type a
+  key that isn't in the list to open it anyway.
 - **Group by** status, initiative then epic, epic, or board. Board grouping finds which of your
   boards list each ticket; a ticket no board lists inherits its parent's board ("via …").
 - **Open a ticket beside the list.** Its lineage, facts, description, children and comments, with
@@ -35,6 +40,7 @@ in the browser; there is nothing to configure. See [Requirements](#requirements)
 - **Change statuses in place.** Click a status to see the moves your workflow allows.
 - **Assign or reassign.** In an open ticket, click the assignee to search the people Jira lets you
   assign it to, or unassign it.
+- **Create in Jira.** **Create ticket** opens your Jira boards in the browser.
 - **Move by keyboard.** J / K to move, Enter to open, [ and ] for previous / next, U for the
   parent, S to change status, / to search, ? for the list.
 - **Any Jira Cloud site.** If your account grants several, the site name becomes a menu to switch.
