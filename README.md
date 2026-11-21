@@ -16,17 +16,21 @@ bb plugin install git:https://github.com/ahsan7162/bb-plugin-my-jira.git@^0.5.0
 Or install **Jira Board** from bb's plugin store. Click **Connect Jira** and sign in with Atlassian
 in the browser; there is nothing to configure. See [Requirements](#requirements).
 
-<!-- IMAGE: drag 01-list.png onto this line in GitHub's web editor, then delete this comment -->
+<img width="3200" height="2000" alt="01-list" src="https://github.com/user-attachments/assets/1a6a1c2f-abd9-4249-8b72-0194961073e6" />
 
-<!-- IMAGE: drag 02-ticket.png onto this line in GitHub's web editor, then delete this comment -->
+<img width="3200" height="2000" alt="02-ticket" src="https://github.com/user-attachments/assets/c47964a4-064a-4071-a727-92e1997c34fb" />
 
-<!-- IMAGE: drag 03-status.png onto this line in GitHub's web editor, then delete this comment -->
+<img width="3200" height="2000" alt="03-status" src="https://github.com/user-attachments/assets/f8db226a-9d11-42c3-a433-6f825a585419" />
 
-<!-- IMAGE: drag 04-assign.png onto this line in GitHub's web editor, then delete this comment -->
+<img width="3200" height="2000" alt="04-assign" src="https://github.com/user-attachments/assets/89750bd1-023e-4c0b-8588-bd571729ce37" />
 
-<!-- IMAGE: drag 05-hierarchy.png onto this line in GitHub's web editor, then delete this comment -->
+<img width="3200" height="2000" alt="05-hierarchy" src="https://github.com/user-attachments/assets/215d47c5-228e-4a96-a8d1-402f6af4a68d" />
 
-<!-- IMAGE: drag 06-board.png onto this line in GitHub's web editor, then delete this comment -->
+<img width="3200" height="2000" alt="06-board" src="https://github.com/user-attachments/assets/679c8d22-27c9-45a0-b9c8-15bc11ad2398" />
+
+
+
+
 
 ## What you get
 
